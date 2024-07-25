@@ -11,6 +11,7 @@ def findDependency(packageName, requiredPackages):
     if packageName in requiredPackages:
         return requiredPackages
     
+    # We're going to process this package
     requiredPackages.append(packageName)
 
     # Read the file
@@ -29,11 +30,9 @@ def findDependency(packageName, requiredPackages):
     deps = list(fileContent['dependencies'].keys())
     for dep in deps:
         findDependency(dep, requiredPackages)
-
     return requiredPackages
 
 needToCopy = findDependency(toFind, [])
-
 
 def copyModules(directory, requiredPackages):
 
@@ -47,6 +46,4 @@ def copyModules(directory, requiredPackages):
     for pkg in requiredPackages:
         os.system(f"cp -r {nodeModulesDir}/{pkg} {directory}" )
 
-print(needToCopy)
 copyModules(destination, needToCopy)
-    
